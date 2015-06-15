@@ -8,4 +8,11 @@ if [ -f ~/.vimrc ]; then
         [Nn]* ) exit;; 
     esac 
 
+
+
+else
+    cp vimrc ~/.vimrc;;
+
 fi
+
+
