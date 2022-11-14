@@ -1,3 +1,2 @@
 # my_linux_setup
-## Bootstrap a workstation with ansible 
-`sh bootstrap.sh`
+curl https://github.com/tlewis11/my_linux_setup/blob/master/bootstrap.sh | sh
