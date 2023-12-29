@@ -1,0 +1,13 @@
+---
+  - name: "Playing with Ansible and Git"
+    hosts: localhost
+    connection: local
+    #vars_files:
+    #  - vars/main.yaml
+
+    tasks:
+      - name: install taskfile
+        apt:
+          deb: https://github.com/go-task/task/releases/download/v3.33.1/task_linux_amd64.deb
+        become: true
+        
