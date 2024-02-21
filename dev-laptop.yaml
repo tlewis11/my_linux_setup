@@ -6,15 +6,31 @@
     #  - vars/main.yaml
 
     tasks:
-      - name: install taskfile
-        apt:
-          deb: https://github.com/go-task/task/releases/download/v3.33.1/task_linux_amd64.deb
-        become: true
-    
-      - name: Unarchive a file that needs to be downloaded (added in 2.0)
-        ansible.builtin.unarchive:
-          src: https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip
-          dest: /usr/local/bin
-          remote_src: yes
-          mode: '755'
-        become: true 
+      #- name: install taskfile
+      #  apt:
+      #    deb: https://github.com/go-task/task/releases/download/v3.33.1/task_linux_amd64.deb
+      #  become: true
+
+      - name: place vimrc file
+        ansible.builtin.copy:
+          src: vimrc
+          dest: /home/tim/.vimrc
+          owner: tim
+          group: tim 
+          mode: '0644'
+
+      - name: place bash_profile file
+        ansible.builtin.copy:
+          src: bash_profile
+          dest: /home/tim/.bash_profile
+          owner: tim
+          group: tim 
+          mode: '0644'
+
+      #- name: Unarchive a file that needs to be downloaded (added in 2.0)
+      #  ansible.builtin.unarchive:
+      #    src: https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip
+      #    dest: /usr/local/bin
+      #    remote_src: yes
+      #    mode: '755'
+      #  become: true 
