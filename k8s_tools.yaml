@@ -1,0 +1,93 @@
+---
+- name: Get latest kubectl version
+  uri:
+    url: https://dl.k8s.io/release/stable.txt
+    return_content: yes
+  register: version
+
+- name: Download k9s tar
+  ansible.builtin.get_url:
+    url: "https://github.com/derailed/k9s/releases/download/v0.31.9/k9s_Linux_amd64.tar.gz"
+    dest: "/home/{{ ansible_user_id }}"
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+
+- name: install k9s from tar 
+  ansible.builtin.unarchive:
+    src: "/home/{{ ansible_user_id }}/k9s_Linux_amd64.tar.gz"
+    dest: /usr/local/bin
+    mode: "0755"
+    owner: root
+    group: root
+  become: true
+
+- name: Download the latest kubectl release
+  ansible.builtin.get_url:
+    url: https://dl.k8s.io/release/v1.26.1/bin/linux/amd64/kubectl
+    dest: /usr/local/bin/kubectl
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+
+- name: install kubectx
+  ansible.builtin.get_url:
+    url: https://github.com/ahmetb/kubectx/releases/download/v0.9.4/kubectx
+    dest: /usr/local/bin/kubectx
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+
+- name: install kubens
+  ansible.builtin.get_url:
+    url: https://github.com/ahmetb/kubectx/releases/download/v0.9.4/kubens
+    dest: /usr/local/bin/kubens
+    owner: root
+    group: root
+    mode: "0755"
+  become: true
+
+- name: download nvm script
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh
+    dest: /tmp/install.sh
+
+- name: make nvm script executable
+  ansible.builtin.file:
+    path: /tmp/install.sh
+    mode: '+ux'
+
+- name: run the script
+  ansible.builtin.shell: /tmp/install.sh
+  args:
+    executable: /bin/bash
+
+- name: download helm tar file
+  ansible.builtin.get_url:
+    url: https://get.helm.sh/helm-v3.12.1-linux-amd64.tar.gz
+    dest: "/home/{{ ansible_user_id }}/helm-v3.12.1-linux-amd64.tar.gz"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: "0644"
+
+- name: extract helm archive
+  ansible.builtin.unarchive:
+    src: "/home/{{ ansible_user_id }}/helm-v3.12.1-linux-amd64.tar.gz"
+    dest: "/home/{{ ansible_user_id }}/"
+    mode: "0755"
+    owner: root
+    group: root
+  become: true
+
+- name: move helm file to /usr/local/bin
+  ansible.builtin.copy:
+    src: "/home/{{ ansible_user_id }}/linux-amd64/helm"
+    dest: /usr/local/bin/helm
+    remote_src: yes
+    mode: "0755"
+    owner: root
+    group: root
+  become: true

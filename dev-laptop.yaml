@@ -27,10 +27,5 @@
           group: tim 
           mode: '0644'
 
-      #- name: Unarchive a file that needs to be downloaded (added in 2.0)
-      #  ansible.builtin.unarchive:
-      #    src: https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip
-      #    dest: /usr/local/bin
-      #    remote_src: yes
-      #    mode: '755'
-      #  become: true 
+      - name: install kubectl
+        include_tasks: k8s_tools.yaml
